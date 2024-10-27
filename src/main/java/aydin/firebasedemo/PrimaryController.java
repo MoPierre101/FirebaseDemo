@@ -7,6 +7,8 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,9 @@ public class PrimaryController {
 
     @FXML
     private Button writeButton;
+
+    @FXML
+    private TextField phoneNumberTextField;
 
     private boolean key;
     private ObservableList<Person> listOfUsers = FXCollections.observableArrayList();
@@ -98,7 +103,7 @@ public class PrimaryController {
                 for (QueryDocumentSnapshot document : documents)
                 {
                     outputTextArea.setText(outputTextArea.getText()+ document.getData().get("Name")+ " , Age: "+
-                            document.getData().get("Age")+ " \n ");
+                            document.getData().get("Age")+ " , Phone: "+ document.getData().get("Phone Number") + " \n ");
                     System.out.println(document.getId() + " => " + document.getData().get("Name"));
                     person  = new Person(String.valueOf(document.getData().get("Name")),
                             Integer.parseInt(document.getData().get("Age").toString()));
@@ -150,6 +155,7 @@ public class PrimaryController {
         Map<String, Object> data = new HashMap<>();
         data.put("Name", nameTextField.getText());
         data.put("Age", Integer.parseInt(ageTextField.getText()));
+        data.put("Phone Number", Integer.parseInt(phoneNumberTextField.getText()));
 
         //asynchronously write data
         ApiFuture<WriteResult> result = docRef.set(data);
